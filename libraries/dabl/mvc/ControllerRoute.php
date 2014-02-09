@@ -92,8 +92,8 @@ class ControllerRoute {
 	 */
 	static function load($route = '', $headers = array(), array $request_params = array()) {
 		$controller_route = new self($route, $headers, $request_params);
-
 		$controller = $controller_route->getController();
+
 
 		if (null === $controller) {
 			file_not_found($route);

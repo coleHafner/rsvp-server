@@ -1,9 +1,8 @@
 <?php
 
-class IndexController extends ApplicationController {
+class IndexController extends LoggedInApplicationController {
 
 	function index() {
-		
 	}
 
 }
