@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="rsvp">
+  <table name="address" phpName="Address">
+    <column name="id" phpName="Id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="street_1" phpName="Street1" type="VARCHAR" size="255" required="false"/>
+    <column name="street_2" phpName="Street2" type="VARCHAR" size="255" required="false"/>
+    <column name="city" phpName="City" type="VARCHAR" size="255" required="false"/>
+    <column name="state" phpName="State" type="VARCHAR" size="255" required="false"/>
+    <column name="zip" phpName="Zip" type="VARCHAR" size="255" required="false"/>
+    <column name="active" phpName="Active" type="TINYINT" size="1" required="false" defaultValue="1"/>
+    <column name="created" phpName="Created" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+    <column name="updated" phpName="Updated" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+  </table>
+  <table name="guest" phpName="Guest">
+    <column name="id" phpName="Id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="parent_id" phpName="ParentId" type="INTEGER" size="10" required="false"/>
+    <column name="address_id" phpName="AddressId" type="INTEGER" size="10" required="true"/>
+    <column name="wedding_id" phpName="WeddingId" type="INTEGER" size="10" required="true"/>
+    <column name="first_name" phpName="FirstName" type="VARCHAR" size="255" required="false"/>
+    <column name="last_name" phpName="LastName" type="VARCHAR" size="255" required="false"/>
+    <column name="activation_code" phpName="ActivationCode" type="VARCHAR" size="255" required="false"/>
+    <column name="expected_count" phpName="ExpectedCount" type="INTEGER" size="10" required="false"/>
+    <column name="actual_count" phpName="ActualCount" type="INTEGER" size="10" required="false"/>
+    <column name="rsvp_through_site" phpName="RsvpThroughSite" type="TINYINT" size="1" required="true"/>
+    <column name="is_attending" phpName="IsAttending" type="TINYINT" size="1" required="true"/>
+    <column name="is_new" phpName="IsNew" type="TINYINT" size="1" required="true" defaultValue="0"/>
+    <column name="active" phpName="Active" type="TINYINT" size="1" required="true" defaultValue="1"/>
+    <column name="created" phpName="Created" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+    <column name="updated" phpName="Updated" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+    <foreign-key foreignTable="guest" name="guest_ibfk_1" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="parent_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="address" name="guest_ibfk_2" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="address_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="wedding" name="guest_ibfk_3" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="wedding_id" foreign="id"/>
+    </foreign-key>
+    <index name="parent_id">
+      <index-column name="parent_id"/>
+    </index>
+    <index name="address_id">
+      <index-column name="address_id"/>
+    </index>
+    <index name="wedding_id">
+      <index-column name="wedding_id"/>
+    </index>
+  </table>
+  <table name="guest_guest_type" phpName="GuestGuestType">
+    <column name="guest_id" phpName="GuestId" type="INTEGER" size="10" primaryKey="true" required="true"/>
+    <column name="guest_type_id" phpName="GuestTypeId" type="INTEGER" size="10" primaryKey="true" required="true"/>
+    <column name="created" phpName="Created" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+    <foreign-key foreignTable="guest" name="guest_guest_type_ibfk_1" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="guest_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="guest_type" name="guest_guest_type_ibfk_2" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="guest_type_id" foreign="id"/>
+    </foreign-key>
+    <unique name="guest_id_2">
+      <unique-column name="guest_id"/>
+      <unique-column name="guest_type_id"/>
+    </unique>
+    <index name="guest_id">
+      <index-column name="guest_id"/>
+    </index>
+    <index name="guest_type_id">
+      <index-column name="guest_type_id"/>
+    </index>
+  </table>
+  <table name="guest_type" phpName="GuestType">
+    <column name="id" phpName="Id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="title" phpName="Title" type="VARCHAR" size="255" required="false"/>
+    <column name="is_special" phpName="IsSpecial" type="TINYINT" size="1" required="false"/>
+    <column name="active" phpName="Active" type="TINYINT" size="1" required="false" defaultValue="1"/>
+    <column name="created" phpName="Created" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+    <column name="updated" phpName="Updated" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+  </table>
+  <table name="session" phpName="Session">
+    <column name="id" phpName="Id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="user_id" phpName="UserId" type="INTEGER" size="10" required="true"/>
+    <column name="hash" phpName="Hash" type="VARCHAR" size="255" required="true"/>
+    <column name="user_agent" phpName="UserAgent" type="VARCHAR" size="255" required="true"/>
+    <column name="ip_address" phpName="IpAddress" type="VARCHAR" size="255" required="true"/>
+    <column name="terminated" phpName="Terminated" type="TIMESTAMP" required="false"/>
+    <column name="created" phpName="Created" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+    <column name="updated" phpName="Updated" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+    <foreign-key foreignTable="user" name="session_ibfk_1" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+    <index name="userId">
+      <index-column name="user_id"/>
+    </index>
+  </table>
+  <table name="user" phpName="User">
+    <column name="id" phpName="Id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="wedding_id" phpName="WeddingId" type="INTEGER" size="10" required="true"/>
+    <column name="username" phpName="Username" type="VARCHAR" size="255" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="255" required="true"/>
+    <column name="created" phpName="Created" type="INTEGER_TIMESTAMP" size="10" required="true"/>
+    <column name="updated" phpName="Updated" type="INTEGER_TIMESTAMP" size="10" required="true"/>
+    <foreign-key foreignTable="wedding" name="user_ibfk_1" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="wedding_id" foreign="id"/>
+    </foreign-key>
+    <index name="wedding_id">
+      <index-column name="wedding_id"/>
+    </index>
+  </table>
+  <table name="wedding" phpName="Wedding">
+    <column name="id" phpName="Id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="255" required="false"/>
+    <column name="created" phpName="Created" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+    <column name="updated" phpName="Updated" type="INTEGER_TIMESTAMP" size="10" required="false"/>
+  </table>
+</database>
