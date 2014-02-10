@@ -114,7 +114,7 @@ class View {
 		foreach ($params as $_var => &$_value) {
 			$$_var = &$_value;
 		}
-
+		
 		require $this->viewFile;
 
 		if ($return_output) {

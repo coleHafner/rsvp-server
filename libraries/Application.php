@@ -10,14 +10,14 @@ class Application {
 
             //create session record
             $s = new Session;
-            $s->setSessionHash(Session::getUniqueSessionId());
+            $s->setHash(Session::getUniqueSessionId());
             $s->setUserAgent($_SERVER['HTTP_USER_AGENT']);
             $s->setIpAddress($_SERVER['REMOTE_ADDR']);
-            $s->setUserId($user->getUserId());
+            $s->setUserId($user->getId());
             $s->save();
 
             //save hash to session
-            Application::setSessionVar('sessionId', $s->getSessionHash());
+            Application::setSessionVar('sessionId', $s->getHash());
             return true;
         }
 
@@ -27,7 +27,7 @@ class Application {
 
     static function doLogout() {
         if(Application::haveActiveLogin()) {
-            $s = Session::retrieveBySessionHash(self::getCurrentSessionId());
+            $s = Session::retrieveByHash(self::getCurrentSessionId());
             $s->endSession();
             session_destroy();
             return true;
@@ -38,14 +38,14 @@ class Application {
     }//doLogout()
 
     static function getUser() {
-        if($s = Session::retrieveBySessionHash(self::getCurrentSessionId())) {
+        if($s = Session::retrieveByHash(self::getCurrentSessionId())) {
             return $s->getUserRelatedByUserId();
         }
         return false;
     }//getUser()
 
     static function getUserId() {
-        if($s = Session::retrieveBySessionHash(self::getCurrentSessionId())) {
+        if($s = Session::retrieveByHash(self::getCurrentSessionId())) {
             return $s->getUserId();
         }
         return false;

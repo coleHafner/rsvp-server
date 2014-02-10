@@ -21,7 +21,7 @@ class AdminController extends LoggedInApplicationController {
 		$this['currentAction'] = 'guest-list';
 
 		$q = new Query;
-		$q->add('guest_type_id', 0, Query::GREATER_THAN);
+		$q->add('id', 0, Query::GREATER_THAN);
 		$q->order('title');
 
 		$this['guestTypes'] = GuestType::doSelect($q);
@@ -68,7 +68,7 @@ class AdminController extends LoggedInApplicationController {
 		$this->layout = 'layouts/minimal';
 		$q = new Query;
 		$q->addOrder('last_name', Query::ASC);
-		$q->add('parent_guest_id', null, Query::IS_NULL);
+		$q->add('parent_id', null, Query::IS_NULL);
 		$this['guests'] = Guest::doSelect($q);
 		$this['total_guest_count'] = Guest::doCount();
 	}

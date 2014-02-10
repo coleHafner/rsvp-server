@@ -18,6 +18,7 @@ class LoginController extends ApplicationController {
         if(Application::haveActiveLogin()) {
             redirect('/admin');
         }
+		
     }//index()
 
     function login() {

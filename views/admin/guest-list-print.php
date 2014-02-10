@@ -5,6 +5,13 @@
 </div>
 -->
 
+<?php
+if (count($guests) == 0) :
+	echo 'There are 0 guests in the list.';
+endif;
+return;
+?>
+
 <table class="guest-printout">
     <tr>
 

@@ -43,7 +43,7 @@
 			% Replied
 		    </div>
 		    <div class="rsvp_num color_accent font_big">
-			<?php echo substr($stats['replied'] / $stats['total'], 0, 4) * 100; ?>
+			<?php echo $stats['total'] == 0 ? '0' : substr($stats['replied'] / $stats['total'], 0, 4) * 100; ?>
 		    </div>
 		</div>
 	    </div>

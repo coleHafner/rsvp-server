@@ -13,7 +13,7 @@ class Session extends baseSession {
         while(!$isUnique) {
             $q = new Query;
             $hash = self::generateHash();
-            $q->add(Session::SESSION_HASH, $hash);
+            $q->add(Session::HASH, $hash);
             $isUnique = (self::doCount($q) == 0) ? true : $isUnique;
         }
 
@@ -25,7 +25,7 @@ class Session extends baseSession {
     }//generateHash()
 
     static function sessionIdIsActive($hash) {
-        if($s = self::retrieveBySessionHash($hash)) {
+        if($s = self::retrieveByHash($hash)) {
             return is_null($s->getTerminated());
         }
 

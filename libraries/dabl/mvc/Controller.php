@@ -384,6 +384,9 @@ abstract class Controller extends ArrayObject {
 		if ($this->isRestful()) {
 			$this->loadView($view, $result);
 		} else {
+			$controller = str_replace('controller', '', strtolower(get_class($this)));
+			$dir = $controller == 'index' ? '' : $controller . '/';
+			$view = $dir . $view;
 			$this->loadView($view);
 		}
 	}
