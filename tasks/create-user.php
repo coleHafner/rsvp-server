@@ -10,12 +10,8 @@ $conn->beginTransaction();
 
 try {
 
-	$wedding = Wedding::retrieveByName($wedding_name);
-
-	if(!$wedding instanceof Wedding) {
-		throw new RuntimeException('Error: Wedding "' . $wedding_name . '" does not exist.');
-	}
-
+	$wedding = getWeddingByName($wedding_name);
+	
 	$user = new User;
 	$user->setUsername($username);
 	$encrypted_pass = User::passwordEncrypt(User::passwordSalt(), $password);

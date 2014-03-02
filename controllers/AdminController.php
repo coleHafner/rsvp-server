@@ -59,6 +59,7 @@ class AdminController extends LoggedInApplicationController {
 	}
 
 	function guestListSearch() {
+		$this->layout = '';
 		$guestTypeId = ($_REQUEST['guest_type_id'] > 0 ) ? $_REQUEST['guest_type_id'] : null;
 		$hasReplied = ($_REQUEST['has_replied'] != '-' ) ? $_REQUEST['has_replied'] : null;
 		$this['guests'] = Guest::getGuestListComplete($hasReplied, $guestTypeId);

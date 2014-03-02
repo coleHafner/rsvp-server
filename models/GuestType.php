@@ -8,10 +8,11 @@ class GuestType extends baseGuestType {
     const SPECIAL_YES = 1;
     const SPECIAL_NO = 0;
 
+	const TYPE_GUEST = 1;
+
     public static function getAllValids() {
-	$q = new Query;
-	$q->add('guest_type_id', 0, Query::GREATER_THAN);
-	$q->orderBy('title', Query::ASC);
-	return self::doSelect($q);
+		$q = new Query;
+		$q->orderBy('title', Query::ASC);
+		return self::doSelect($q);
     }//getAllValids()
 }
