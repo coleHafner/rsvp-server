@@ -149,7 +149,7 @@ abstract class baseGuest extends ApplicationModel {
 	protected $parent_id;
 
 	/**
-	 * `address_id` INTEGER NOT NULL DEFAULT ''
+	 * `address_id` INTEGER DEFAULT ''
 	 * @var int
 	 */
 	protected $address_id;
@@ -173,7 +173,7 @@ abstract class baseGuest extends ApplicationModel {
 	protected $last_name;
 
 	/**
-	 * `activation_code` VARCHAR
+	 * `activation_code` VARCHAR NOT NULL
 	 * @var string
 	 */
 	protected $activation_code;
@@ -191,25 +191,25 @@ abstract class baseGuest extends ApplicationModel {
 	protected $actual_count;
 
 	/**
-	 * `rsvp_through_site` TINYINT NOT NULL DEFAULT ''
+	 * `rsvp_through_site` TINYINT DEFAULT ''
 	 * @var int
 	 */
 	protected $rsvp_through_site;
 
 	/**
-	 * `is_attending` TINYINT NOT NULL DEFAULT ''
+	 * `is_attending` TINYINT DEFAULT ''
 	 * @var int
 	 */
 	protected $is_attending;
 
 	/**
-	 * `is_new` TINYINT NOT NULL DEFAULT 0
+	 * `is_new` TINYINT DEFAULT 0
 	 * @var int
 	 */
 	protected $is_new = 0;
 
 	/**
-	 * `active` TINYINT NOT NULL DEFAULT 1
+	 * `active` TINYINT DEFAULT 1
 	 * @var int
 	 */
 	protected $active = 1;
@@ -1815,17 +1815,11 @@ abstract class baseGuest extends ApplicationModel {
 	 */
 	function validate() {
 		$this->_validationErrors = array();
-		if (null === $this->getaddress_id()) {
-			$this->_validationErrors[] = 'address_id must not be null';
-		}
 		if (null === $this->getwedding_id()) {
 			$this->_validationErrors[] = 'wedding_id must not be null';
 		}
-		if (null === $this->getrsvp_through_site()) {
-			$this->_validationErrors[] = 'rsvp_through_site must not be null';
-		}
-		if (null === $this->getis_attending()) {
-			$this->_validationErrors[] = 'is_attending must not be null';
+		if (null === $this->getactivation_code()) {
+			$this->_validationErrors[] = 'activation_code must not be null';
 		}
 		return 0 === count($this->_validationErrors);
 	}
