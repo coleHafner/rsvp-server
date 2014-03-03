@@ -35,9 +35,9 @@
 				</span>
 				<div class="padder" style="padding-left:0px;">
 					<select name="has_replied">
+						<option value="" >Doesn't Matter</option>
 						<option value="1" >Yes</option>
 						<option value="0" >No</option>
-						<option value="" >Doesn't Matter</option>
 					</select>
 				</div>
 			</div>

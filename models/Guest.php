@@ -289,10 +289,13 @@ class Guest extends baseGuest {
 			}
 		}
 
-		$isAttending = (isset($form_vals['is_attending'])) ? 1 : 0;
+		if (array_key_exists('is_attending', $form_vals)) {
+			$isAttending = (isset($form_vals['is_attending'])) ? 1 : 0;
+			$this->setIsAttending($isAttending);
+		}
+
 		$this->setFirstName($form_vals['first_name']);
 		$this->setLastName($form_vals['last_name']);
-		$this->setIsAttending($isAttending);
 
 		return $this->save();
 	}
