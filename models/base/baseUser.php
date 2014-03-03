@@ -107,7 +107,7 @@ abstract class baseUser extends ApplicationModel {
 	protected $id;
 
 	/**
-	 * `wedding_id` INTEGER NOT NULL DEFAULT ''
+	 * `wedding_id` INTEGER DEFAULT ''
 	 * @var int
 	 */
 	protected $wedding_id;
@@ -1002,9 +1002,6 @@ abstract class baseUser extends ApplicationModel {
 	 */
 	function validate() {
 		$this->_validationErrors = array();
-		if (null === $this->getwedding_id()) {
-			$this->_validationErrors[] = 'wedding_id must not be null';
-		}
 		if (null === $this->getusername()) {
 			$this->_validationErrors[] = 'username must not be null';
 		}

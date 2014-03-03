@@ -145,7 +145,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
 	`id` INTEGER(10) NOT NULL AUTO_INCREMENT,
-	`wedding_id` INTEGER(10) NOT NULL,
+	`wedding_id` INTEGER(10),
 	`username` VARCHAR(255) NOT NULL,
 	`password` VARCHAR(255) NOT NULL,
 	`created` INT(10) NOT NULL,
