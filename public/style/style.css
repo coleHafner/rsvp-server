@@ -213,6 +213,15 @@ div.ui-state-highlight, div.ui-state-error{
 	margin-bottom: 5px;
 }
 
+.guest-printout {
+	width:100%;
+}
+
+.guest-printout td {
+	padding:10px;
+	border:1px solid #ccc;
+}
+
 @media all and (max-width: 599px) {
 	.form-field-label, .field-label {
 		float: none;

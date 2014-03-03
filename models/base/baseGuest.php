@@ -173,7 +173,7 @@ abstract class baseGuest extends ApplicationModel {
 	protected $last_name;
 
 	/**
-	 * `activation_code` VARCHAR NOT NULL
+	 * `activation_code` VARCHAR
 	 * @var string
 	 */
 	protected $activation_code;
@@ -1817,9 +1817,6 @@ abstract class baseGuest extends ApplicationModel {
 		$this->_validationErrors = array();
 		if (null === $this->getwedding_id()) {
 			$this->_validationErrors[] = 'wedding_id must not be null';
-		}
-		if (null === $this->getactivation_code()) {
-			$this->_validationErrors[] = 'activation_code must not be null';
 		}
 		return 0 === count($this->_validationErrors);
 	}

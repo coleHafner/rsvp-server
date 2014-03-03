@@ -2,7 +2,7 @@
     <option value="0">Select Guest Type</option>
 
 <?php foreach(GuestType::getAllValids() as $gt) { ?>
-    <option value="<?php echo $gt->getGuestTypeId(); ?>">
+    <option value="<?php echo $gt->getId(); ?>">
 	<?php echo $gt->getTitle(); ?>
     </option>
 <?php }//end foreach ?>

@@ -21,7 +21,7 @@
 			</option>
 
 <?php foreach ($guestTypes as $gt) { ?>
-			<option value="<?php echo $gt->getGuestTypeID(); ?>">
+			<option value="<?php echo $gt->getId(); ?>">
 				<?php echo $gt->getTitle(); ?>
 			</option>
 <?php }//end foreach ?>
@@ -35,11 +35,11 @@
 		    Has Replied:
 		</span>
 		<div class="padder" style="padding-left:0px;">
-		    <input type="radio" name="has_replied" value="yes" />&nbsp;Yes
+		    <input type="radio" name="has_replied" value="1" />&nbsp;Yes
 		    &nbsp;&nbsp;
-		    <input type="radio" name="has_replied" value="no" />&nbsp;No
+		    <input type="radio" name="has_replied" value="0" />&nbsp;No
 		    &nbsp;&nbsp;
-		    <input type="radio" name="has_replied" value="-" checked="checked" />&nbsp;Doesn't Matter
+		    <input type="radio" name="has_replied" value="" checked="checked" />&nbsp;Doesn't Matter
 		</div>
 	    </div>
 

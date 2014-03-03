@@ -37,7 +37,7 @@ CREATE TABLE `guest`
 	`wedding_id` INTEGER(10) NOT NULL,
 	`first_name` VARCHAR(255),
 	`last_name` VARCHAR(255),
-	`activation_code` VARCHAR(255) NOT NULL,
+	`activation_code` VARCHAR(255),
 	`expected_count` INTEGER(10),
 	`actual_count` INTEGER(10),
 	`rsvp_through_site` TINYINT(1),

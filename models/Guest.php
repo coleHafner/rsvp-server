@@ -6,27 +6,27 @@ class Guest extends baseGuest {
 	const STATUS_INACTIVE = 0;
 
 	public function guestHasSpecialType() {
-		$q = new Query(GuestToGuestType::getTableName() . ' g2gt');
-		$q->join(GuestType::getTableName() . ' gt', 'gt.guest_type_id = g2gt.guest_type_id');
-		$q->add('g2gt.guest_id', $this->getGuestId());
+		$q = new Query(GuestGuestType::getTableName() . ' g2gt');
+		$q->join(GuestType::getTableName() . ' gt', 'gt.id = g2gt.guest_type_id');
+		$q->add('g2gt.guest_id', $this->getId());
 		$q->add('gt.is_special', '1');
-		return GuestToGuestType::doCount($q);
+		return GuestGuestType::doCount($q);
 	}
 
 	public function getBadgeType() {
-		$q = new Query(GuestToGuestType::getTableName() . ' g2gt');
-		$q->join(GuestType::getTableName() . ' gt', 'gt.guest_type_id = g2gt.guest_type_id');
-		$q->addColumn('gt.guest_type_id AS guest_type_id');
+		$q = new Query(GuestGuestType::getTableName() . ' g2gt');
+		$q->join(GuestType::getTableName() . ' gt', 'gt.id = g2gt.guest_type_id');
+		$q->addColumn('gt.id AS guest_type_id');
 		$q->addColumn('LOWER( gt.title ) AS title');
-		$q->add('g2gt.guest_id', $this->getGuestId());
+		$q->add('g2gt.guest_id', $this->getId());
 		$q->add('gt.is_special', '1');
-		$found_types = GuestToGuestType::fetch($q);
+		$found_types = GuestGuestType::fetch($q);
 
 		if (is_array($found_types)) {
 			reset($found_types);
 			$selected_id = current($found_types)->getGuestTypeId();
 			$q = new Query;
-			$q->add('guest_type_id', $selected_id);
+			$q->add('id', $selected_id);
 			$gt_results = GuestType::doSelect($q);
 			$return = array_shift($gt_results);
 		}//if any types were found
@@ -38,11 +38,11 @@ class Guest extends baseGuest {
 
 		$update_timestamp = strtotime('now');
 		$actual_count = ( $rsvp_answer == '1' ) ? count($guest_list) : 0;
-		$is_attending = ( in_array($this->getGuestId(), $guest_list) ) ? '1' : '0';
+		$is_attending = ( in_array($this->getId(), $guest_list) ) ? '1' : '0';
 		$this->updateIndividualRsvpStatus($this, $is_attending, $update_timestamp, $actual_count, $rsvp_through_site);
 
 		foreach ($this->getChildren() as $sub_g) {
-			$is_attending = ( in_array($sub_g->getGuestId(), $guest_list) ) ? "1" : "0";
+			$is_attending = ( in_array($sub_g->getId(), $guest_list) ) ? "1" : "0";
 			$this->updateIndividualRsvpStatus($sub_g, $is_attending, $update_timestamp, $actual_count, $rsvp_through_site);
 		}
 		return true;
@@ -63,14 +63,14 @@ class Guest extends baseGuest {
 
 	function getChildren() {
 		$q = new Query();
-		$q->add('parent_id', $this->getGuestId());
+		$q->add('parent_id', $this->getId());
 		$q->add('active', 1);
 		return self::doSelect($q);
 	}
 
 	function getNumChildren() {
 		$q = new Query();
-		$q->add('parent_id', $this->getGuestId());
+		$q->add('parent_id', $this->getId());
 		$q->add('active', 1);
 		return self::doCount($q);
 	}
@@ -91,11 +91,11 @@ class Guest extends baseGuest {
 
 	function addGuestTypeId($gtId) {
 
-		if (!$this->getGuestId())
+		if (!$this->getId())
 			return false;
 
-		$g2gt = new GuestToGuestType;
-		$g2gt->setGuestId($this->getGuestId());
+		$g2gt = new GuestGuestType;
+		$g2gt->setGuestId($this->getId());
 		$g2gt->setGuestTypeId($gtId);
 		return $g2gt->save();
 	}
@@ -110,7 +110,7 @@ class Guest extends baseGuest {
 
 		$qReplied = new Query;
 		$qReplied->add('id', 0, Query::GREATER_THAN);
-		$qReplied->add('updated', null, Query::IS_NOT_NULL);
+		$qReplied->add('is_attending', null, Query::IS_NOT_NULL);
 		$qReplied->add('is_new', 0);
 
 		$qAttending = new Query;
@@ -178,24 +178,24 @@ class Guest extends baseGuest {
 		);
 	}
 
-	public static function getGuestListComplete($has_replied = FALSE, $guest_type_id = FALSE) {
+	public static function getGuestListComplete($has_replied = FALSE, $guest_type_id = FALSE, User $user = null) {
 
 		$q = new Query(Guest::getTableName() . ' g');
-		$q->add('g.id', 0, Query::GREATER_THAN);
-		//$q->add('g.activation_code', null, Query::IS_NOT_NULL);
 		$q->orderBy('g.last_name', Query::ASC);
+
+		if ($user instanceof User && $user->getWeddingId()) {
+			$q->add('g.wedding_id', $user->getWeddingId());
+		}
 
 		//apply constraints
 		if ($has_replied) {
-			if ($has_replied == "yes") {
-				$q->add('g.updated', null, Query::IS_NOT_NULL);
-			} else {
-				$q->add('g.updated', null, Query::IS_NULL);
-			}
+			$q->add('g.is_attending', null, Query::IS_NOT_NULL);
+		} else {
+			$q->add('g.is_attending', null, Query::IS_NULL);
 		}
 
 		if ($guest_type_id) {
-			$q->join('guestToGuestType g2gt', 'g2gt.guest_id = g.id');
+			$q->join('guest_guest_type g2gt', 'g2gt.guest_id = g.id');
 			$q->add('g2gt.guest_type_id', $guest_type_id);
 		}
 
@@ -256,15 +256,17 @@ class Guest extends baseGuest {
 	public function doEdit($form_vals) {
 
 		if ($this->isNew()) {
-			$this->setParentGuestId($form_vals['parent_id']);
-			$this->setInitialTimestamp(strtotime('now'));
-			$this->setRsvpThroughSite(0);
-			$this->setAddressId(0);
 
-			if ($form_vals['parent_id'] == 0) {
+			if (empty($form_vals['parent_id'])) {
 				$this->setActivationCode(Guest::getUniqueActivationCode($form_vals['first_name']));
+			}else {
+				$this->setParentId($form_vals['parent_id']);
 			}
 
+			$this->setFirstName($form_vals['first_name']);
+			$this->setLastName($form_vals['last_name']);
+			$this->setWeddingId($form_vals['wedding_id']);
+			$this->setRsvpThroughSite(0);
 			$this->save();
 
 			foreach ($form_vals['guest_type_id'] as $gtId) {

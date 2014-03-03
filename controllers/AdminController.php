@@ -21,11 +21,11 @@ class AdminController extends LoggedInApplicationController {
 		$this['currentAction'] = 'guest-list';
 
 		$q = new Query;
-		$q->add('id', 0, Query::GREATER_THAN);
 		$q->order('title');
+		$user = $user = Application::getUser();
 
 		$this['guestTypes'] = GuestType::doSelect($q);
-		$this['guests'] = Guest::getGuestListComplete();
+		$this['guests'] = Guest::getGuestListComplete(false, false, $user);
 
 		$this['button'] = array(
 			'id' => null,
@@ -61,7 +61,7 @@ class AdminController extends LoggedInApplicationController {
 	function guestListSearch() {
 		$this->layout = '';
 		$guestTypeId = ($_REQUEST['guest_type_id'] > 0 ) ? $_REQUEST['guest_type_id'] : null;
-		$hasReplied = ($_REQUEST['has_replied'] != '-' ) ? $_REQUEST['has_replied'] : null;
+		$hasReplied = !empty($_REQUEST['has_replied']) ? $_REQUEST['has_replied'] : null;
 		$this['guests'] = Guest::getGuestListComplete($hasReplied, $guestTypeId);
 	}
 
@@ -76,6 +76,8 @@ class AdminController extends LoggedInApplicationController {
 
 	function guestEdit() {
 
+		$this->layout = '';
+
 		if ($_REQUEST['pk'] > 0) {
 			$activeRecord = Guest::retrieveByPK($_REQUEST['pk']);
 		} else {
@@ -87,8 +89,13 @@ class AdminController extends LoggedInApplicationController {
 			$this['activeRecord'] = $activeRecord;
 			$this['action'] = $_REQUEST['action'];
 		} else {
+			$params = $_REQUEST;
 
-			$activeRecord->doEdit($_REQUEST);
+			if (empty($_REQUEST['wedding_id'])) {
+				$params['wedding_id'] = Application::getUser()->getWeddingId();
+			}
+
+			$activeRecord->doEdit($params);
 			die;
 		}
 	}

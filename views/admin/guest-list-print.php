@@ -1,15 +1,8 @@
-<!--
-<div class="padder_10" style="border:1px solid #999;margin:10px;">
-    There are <?php echo $total_guest_count; ?> Total Guests.<br/>
-    <a href="<?php echo site_url('/admin'); ?>">&lt;&lt; Back to admin</a>
-</div>
--->
-
 <?php
 if (count($guests) == 0) :
 	echo 'There are 0 guests in the list.';
+	return;
 endif;
-return;
 ?>
 
 <table class="guest-printout">
@@ -25,23 +18,16 @@ foreach($guests as $g) {
                         <div class="padder_5">
                             <?php
                             $children = $g->getChildren();
-                            echo $g->getFirstName() . ' ' . $g->getLastName() . '<br/>';
+                            echo $g->getLastName() . ', ' . $g->getFirstName() . '<br/>';
 
                             foreach($children as $g_ch) {
-                                echo $g_ch->getFirstName() . ' ' . $g_ch->getLastName() . '<br/>';
+                                echo $g_ch->getLastName() . ' ' . $g_ch->getFirstName() . '<br/>';
                             }
 
                             ?>
                             RSVP Code: <?php echo $g->getActivationCode(); ?>
                         </div>
                     </div>
-
-                    <div class="guest-note">
-                        <div class="padder_5">
-                            Visit nateandrebekah.com for gift registry info, directions, and to RSVP.
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </td>
