@@ -132,12 +132,9 @@ session functions
                 var result =  reply_split[0];
                 var message = reply_split[1];
 
-                if( result == 1 )
-                {
+                if( result == 1 ) {
                     window.location = '/admin';
-                }
-                else
-                {
+                }else {
                     showMessage( message, 0, function(){} );
                 }
             }

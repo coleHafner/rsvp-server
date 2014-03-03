@@ -54,7 +54,7 @@ class Guest extends baseGuest {
 		$guest->setRsvpThroughSite($rsvp_through_site);
 		$guest->setUpdateTimestamp($update_timestamp);
 
-		if ($guest->getParentGuestId() == 0) {
+		if (!$guest->getParentId()) {
 			$guest->setActualCount($actual_count);
 		}
 
@@ -76,8 +76,8 @@ class Guest extends baseGuest {
 	}
 
 	function getParentAddressId() {
-		$pg_id = $this->getParentGuestId();
-		if ($pg_id == 0) {
+		$pg_id = $this->getParentId();
+		if (!$pg_id) {
 			$return = $this->getAddressId();
 		} else {
 			$q = new Query;
@@ -100,30 +100,37 @@ class Guest extends baseGuest {
 		return $g2gt->save();
 	}
 
-	static function getGuestQueries() {
-		$qNew = new Query;
+	static function getGuestQueries(User $user) {
+
+		$q = new Query;
+
+		if (!$user->isAdmin()) {
+			$q->add('wedding_id', $user->getWeddingId());
+		}
+
+		$qNew = clone $q;
 		$qNew->add('is_new', 1);
 
-		$qTotal = new Query;
+		$qTotal = clone $q;
 		$qTotal->add('id', 0, Query::GREATER_THAN);
 		$qTotal->add('is_new', 0);
 
-		$qReplied = new Query;
+		$qReplied = clone $q;
 		$qReplied->add('id', 0, Query::GREATER_THAN);
 		$qReplied->add('is_attending', null, Query::IS_NOT_NULL);
 		$qReplied->add('is_new', 0);
 
-		$qAttending = new Query;
+		$qAttending = clone $q;
 		$qAttending->add('id', 0, Query::GREATER_THAN);
 		$qAttending->add('updated', null, Query::IS_NOT_NULL);
 		$qAttending->add('is_attending', 1);
 
-		$qNotAttending = new Query;
+		$qNotAttending = clone $q;
 		$qNotAttending->add('is_attending', 0);
 		$qNotAttending->add('id', 0, Query::GREATER_THAN);
 		$qNotAttending->add('updated', null, Query::IS_NOT_NULL);
 
-		$qRecent = new Query;
+		$qRecent = clone $q;
 		$qRecent->add('id', 0, Query::GREATER_THAN);
 		$qRecent->add('updated', null, Query::IS_NOT_NULL);
 		$qRecent->orderBy('updated', Query::DESC);
@@ -140,7 +147,7 @@ class Guest extends baseGuest {
 	}
 
 	function isParent() {
-		return (bool) ($this->getParentGuestId() == 0);
+		return (bool)$this->getParentId();
 	}
 
 	function delete() {
@@ -153,8 +160,8 @@ class Guest extends baseGuest {
 		}
 	}
 
-	public static function getStats() {
-		$qs = self::getGuestQueries();
+	public static function getStats(User $user) {
+		$qs = self::getGuestQueries($user);
 
 		return array(
 			'new' => self::doCount($qs['new']),
@@ -165,8 +172,8 @@ class Guest extends baseGuest {
 		);
 	}
 
-	public static function getGuestLists() {
-		$qs = self::getGuestQueries();
+	public static function getGuestLists(User $user) {
+		$qs = self::getGuestQueries($user);
 
 		return array(
 			'new' => self::doSelect($qs['new']),
@@ -178,25 +185,33 @@ class Guest extends baseGuest {
 		);
 	}
 
-	public static function getGuestListComplete($has_replied = FALSE, $guest_type_id = FALSE, User $user = null) {
+	public static function getGuestListComplete(array $filters, User $user = null) {
 
 		$q = new Query(Guest::getTableName() . ' g');
 		$q->orderBy('g.last_name', Query::ASC);
 
+		//wedding
 		if ($user instanceof User && $user->getWeddingId()) {
 			$q->add('g.wedding_id', $user->getWeddingId());
+
+		}else if(!empty($filters['wedding_id'])) {
+			$q->add('g.wedding_id', $filters['wedding_id']);
 		}
 
-		//apply constraints
-		if ($has_replied) {
-			$q->add('g.is_attending', null, Query::IS_NOT_NULL);
-		} else {
+		//has replied
+		if (@$filters['has_replied'] == '' || !array_key_exists('has_replied', $filters)) {
 			$q->add('g.is_attending', null, Query::IS_NULL);
+		} else {
+			$q->add('g.is_attending', $filters['has_replied']);
 		}
 
-		if ($guest_type_id) {
-			$q->join('guest_guest_type g2gt', 'g2gt.guest_id = g.id');
-			$q->add('g2gt.guest_type_id', $guest_type_id);
+		//name
+		if (!empty($filters['first_name'])) {
+			$q->add('g.first_name', $filters['first_name'] . '%', Query::LIKE);
+		}
+
+		if (!empty($filters['last_name'])) {
+			$q->add('g.last_name', $filters['last_name'] . '%', Query::LIKE);
 		}
 
 		//echo $q;die;
@@ -278,7 +293,6 @@ class Guest extends baseGuest {
 		$this->setFirstName($form_vals['first_name']);
 		$this->setLastName($form_vals['last_name']);
 		$this->setIsAttending($isAttending);
-		$this->setUpdateTimestamp(time());
 
 		return $this->save();
 	}

@@ -11,8 +11,8 @@ class AdminController extends LoggedInApplicationController {
 		$this['title'] = "RSVP Stats";
 		$this['currentAction'] = 'index';
 
-		$this['stats'] = Guest::getStats();
-		$this['lists'] = Guest::getGuestLists();
+		$this['stats'] = Guest::getStats(Application::getUser());
+		$this['lists'] = Guest::getGuestLists(Application::getUser());
 	}
 
 	function guestList() {
@@ -25,7 +25,7 @@ class AdminController extends LoggedInApplicationController {
 		$user = $user = Application::getUser();
 
 		$this['guestTypes'] = GuestType::doSelect($q);
-		$this['guests'] = Guest::getGuestListComplete(false, false, $user);
+		$this['guests'] = Guest::getGuestListComplete(array(), $user);
 
 		$this['button'] = array(
 			'id' => null,
@@ -60,9 +60,7 @@ class AdminController extends LoggedInApplicationController {
 
 	function guestListSearch() {
 		$this->layout = '';
-		$guestTypeId = ($_REQUEST['guest_type_id'] > 0 ) ? $_REQUEST['guest_type_id'] : null;
-		$hasReplied = !empty($_REQUEST['has_replied']) ? $_REQUEST['has_replied'] : null;
-		$this['guests'] = Guest::getGuestListComplete($hasReplied, $guestTypeId);
+		$this['guests'] = Guest::getGuestListComplete($_REQUEST, Application::getUser());
 	}
 
 	function guestListPrint() {
@@ -90,11 +88,6 @@ class AdminController extends LoggedInApplicationController {
 			$this['action'] = $_REQUEST['action'];
 		} else {
 			$params = $_REQUEST;
-
-			if (empty($_REQUEST['wedding_id'])) {
-				$params['wedding_id'] = Application::getUser()->getWeddingId();
-			}
-
 			$activeRecord->doEdit($params);
 			die;
 		}
@@ -103,6 +96,7 @@ class AdminController extends LoggedInApplicationController {
 	function guestDelete() {
 
 		$activeRecord = Guest::retrieveByPK($_REQUEST['pk']);
+		$this->layout = '';
 
 		if (isset($_REQUEST['showForm'])) {
 			$this['activeRecord'] = $activeRecord;

@@ -76,6 +76,12 @@ abstract class BaseImport {
 		$this->log->skip($line, $reason);
 	}
 
+	protected function exception(array $line, Exception $e) {
+		$this->indicateLineWasSkipped($line, $e->getMessage());
+		$this->endRun(false);
+		print_r($line);
+	}
+
 	public function setSilent($silent) {
 		$this->log->setSilent($silent);
 	}

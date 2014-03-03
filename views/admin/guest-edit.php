@@ -47,13 +47,13 @@
 					</td>
 				</tr>
 
-				<?php if (!Application::getUser()->getWeddingId()) : ?>
+				<?php if (Application::getUser()->isAdmin()) : ?>
 					<tr>
 						<td style="text-align:right;vertical-align:top;">
 							Wedding:
 						</td>
 						<td>
-							<select name="wedding_id">
+							<select id="wedding_id" name="wedding_id">
 								<option value="">Select Wedding</option>
 
 								<?php foreach (Wedding::getAll() as $w) { ?>
@@ -65,16 +65,23 @@
 							</select>
 						</td>
 					</tr>
+				<?php else : ?>
+					<input
+						id="wedding_id"
+						type="hidden"
+						name="wedding_id"
+						value="<?php echo Application::getUser()->getWeddingId(); ?>" />
 				<?php endif; ?>
-					
+
 			<?php } ?>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td style="text-align:right;">
-					<input type="checkbox" name="is_attending" <?php echo ($activeRecord->getIsAttending()) ? 'checked="checked"' : ''; ?> />
-				</td>
+				<td>&nbsp;</td>
 				<td>
-					Attending
+					<label>
+						<input type="checkbox" name="is_attending" <?php echo ($activeRecord->getIsAttending()) ? 'checked="checked"' : ''; ?> />
+						&nbsp;Attending
+					</label>
 				</td>
 			</tr>
 		</table>

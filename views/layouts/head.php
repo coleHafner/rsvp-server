@@ -6,7 +6,7 @@
     <title><?php echo ucfirst( strtolower( $current_page ) ) . ' - rsvp-server'; ?></title>
 
     <link rel="stylesheet" href="<?php echo site_url('/style/vendor/960_grid.css' ); ?>" type="text/css" />
-    <link rel="stylesheet" href="<?php echo site_url('/style/vendor/jquery-ui-1.8.1.custom.css' ); ?>" type="text/css" />
+    <link rel="stylesheet" href="<?php echo site_url('/scripts/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css' ); ?>" type="text/css" />
     <link rel="stylesheet" href="<?php echo site_url('/style/style-admin.css');?>" type="text/css" />
 	<link rel="stylesheet" href="<?php echo site_url('/style/style.css');?>" type="text/css" />
 

@@ -2,6 +2,11 @@
 
 class User extends baseUser {
 
+	public function isAdmin() {
+		$wedding_id = $this->getWeddingId();
+		return empty($wedding_id);
+	}
+
     static function passwordEncrypt($salt, $plain_text_password) {
         return $salt . ( hash('whirlpool', $salt . $plain_text_password) );
     }//passwordEncrypt()
