@@ -18,7 +18,7 @@
 				</div>
 
 				<div class="logo_words_container header_mega color_accent">
-					Halfnerd <span class="color_orange">CMS</span>
+					RSVP <span class="color_orange">Tracker</span>
 				</div>
 
 				<?php if(Application::haveActiveLogin()) : ?>
@@ -47,11 +47,14 @@
 			<?php if (Application::haveActiveLogin()) : ?>
 				<div class="grid_3">
 
+					<!--
 					<div class="go_to_site_link">
 						<a href="<?php echo site_url(); ?>">
 							&lt;&lt; Go To Site
 						</a>
 					</div>
+					-->
+					
 					<?php View::load('admin/module-nav', $params); ?>
 							&nbsp;
 				</div>
