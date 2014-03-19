@@ -58,3 +58,4 @@ foreach ($config_files as $filename) {
 }
 
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: origin, content-type, accept, X-HTTP-Method-Override');

@@ -296,4 +296,10 @@ class Guest extends baseGuest {
 
 		return $this->save();
 	}
+
+	public function toArray() {
+		$arr = parent::toArray();
+		$arr['is_attending'] = !$this->getIsAttending() ? false : true;
+		return $arr;
+	}
 }
