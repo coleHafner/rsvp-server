@@ -56,3 +56,5 @@ sort($config_files);
 foreach ($config_files as $filename) {
 	require_once($filename);
 }
+
+header('Access-Control-Allow-Origin: *');
