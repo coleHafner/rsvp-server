@@ -10,11 +10,11 @@ class GuestsController extends ApplicationController {
 
 	}
 
-	public function save() {
+	public function save($guest_id = null) {
 
 		$conn = Guest::getConnection();
 		$conn->beginTransaction();
-		$g = $this->getGuest();
+		$g = $this->getGuest($guest_id);
 
 		try {
 
