@@ -11,7 +11,9 @@ foreach ($helpers as $helper) {
 }
 
 // start the session
-session_start();
+if (empty($skip_session)) {
+	session_start();
+}
 
 // the browser path to this application.  it should be:
 // a full url with http:// and a trailing slash OR
