@@ -28,7 +28,7 @@
 					<input name="last_name" value="" />
 				</div>
 			</div>
-
+			<!--
 			<div style="position:relative;width:20%;float:left;">
 				<span class="title_span">
 					Has Replied:
@@ -41,7 +41,7 @@
 					</select>
 				</div>
 			</div>
-
+			-->
 			<?php if (Application::getUser()->isAdmin()) : ?>
 				<div style="position:relative;width:20%;float:left;">
 					<span class="title_span">

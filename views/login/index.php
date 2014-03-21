@@ -2,7 +2,7 @@
     <form id="auth_login_form">
 
 	<div class="center header">
-	    Login to manage the site's content.
+	    Login to manage your guest list.
 	</div>
 
 	<div id="result_login_attempt" class="result"></div>

@@ -18,10 +18,10 @@ foreach($guests as $g) {
                         <div class="padder_5">
                             <?php
                             $children = $g->getChildren();
-                            echo $g->getLastName() . ', ' . $g->getFirstName() . '<br/>';
+                            echo $g->getFirstName() . ' ' . $g->getLastName() . '<br/>';
 
                             foreach($children as $g_ch) {
-                                echo $g_ch->getLastName() . ' ' . $g_ch->getFirstName() . '<br/>';
+                                echo $g_ch->getFirstName() . ' ' . $g_ch->getLastName() . '<br/>';
                             }
 
                             ?>

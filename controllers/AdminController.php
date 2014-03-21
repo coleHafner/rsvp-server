@@ -66,6 +66,7 @@ class AdminController extends LoggedInApplicationController {
 	function guestListPrint() {
 		$this->layout = 'layouts/minimal';
 		$q = new Query;
+		$q->add('wedding_id', Application::getUser()->getWeddingID());
 		$q->addOrder('last_name', Query::ASC);
 		$q->add('parent_id', null, Query::IS_NULL);
 		$this['guests'] = Guest::doSelect($q);

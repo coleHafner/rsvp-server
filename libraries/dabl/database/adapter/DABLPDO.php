@@ -332,7 +332,7 @@ abstract class DABLPDO extends PDO {
 			$queries[$hash]['traces'][$trace_hash]['time'] += $query_array['time'];
 		}
 
-		$sort = function($a, $b){
+		function sort($a, $b){
 			if ($a['count'] < $b['count']) {
 				return 1;
 			} elseif ($a['count'] > $b['count']) {
@@ -344,8 +344,9 @@ abstract class DABLPDO extends PDO {
 				return -1;
 			}
 			return 0;
-		};
-		usort($queries, $sort);
+		}
+
+		usort($queries, 'sort');
 
 		foreach ($queries as $q) {
 			$string .= '<tr><td>' . $q['query'] . '</td><td>' . $q['count'] . '</td><td>' . round($q['time'], 6) . '</td>';
