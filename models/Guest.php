@@ -131,8 +131,8 @@ class Guest extends baseGuest {
 		$qNotAttending->add('updated', null, Query::IS_NOT_NULL);
 
 		$qRecent = clone $q;
-		$qRecent->add('id', 0, Query::GREATER_THAN);
 		$qRecent->add('updated', null, Query::IS_NOT_NULL);
+		$qRecent->add('is_attending', null, Query::IS_NOT_NULL);
 		$qRecent->orderBy('updated', Query::DESC);
 		$qRecent->setLimit(10);
 
