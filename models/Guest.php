@@ -198,11 +198,15 @@ class Guest extends baseGuest {
 			$q->add('g.wedding_id', $filters['wedding_id']);
 		}
 
-		//has replied
-		if (@$filters['has_replied'] == '' || !array_key_exists('has_replied', $filters)) {
-			$q->add('g.is_attending', null, Query::IS_NULL);
-		} else {
-			$q->add('g.is_attending', $filters['has_replied']);
+		//is_attending
+		switch($filters['is_attending']) {
+			case '0':
+				$q->add('is_attending', 0);
+				break;
+
+			case '1':
+				$q->add('is_attending', 1);
+				break;
 		}
 
 		//name

@@ -28,20 +28,20 @@
 					<input name="last_name" value="" />
 				</div>
 			</div>
-			<!--
+
 			<div style="position:relative;width:20%;float:left;">
 				<span class="title_span">
-					Has Replied:
+					Is Attending:
 				</span>
 				<div class="padder" style="padding-left:0px;">
-					<select name="has_replied">
+					<select name="is_attending">
 						<option value="" >Doesn't Matter</option>
 						<option value="1" >Yes</option>
 						<option value="0" >No</option>
 					</select>
 				</div>
 			</div>
-			-->
+
 			<?php if (Application::getUser()->isAdmin()) : ?>
 				<div style="position:relative;width:20%;float:left;">
 					<span class="title_span">
