@@ -170,6 +170,7 @@ CREATE TABLE `wedding`
 (
 	`id` INTEGER(10) NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255),
+	`shuttle_enabled` TINYINT(1) DEFAULT 0,
 	`created` INT(10),
 	`updated` INT(10),
 	PRIMARY KEY (`id`)

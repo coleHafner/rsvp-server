@@ -10,6 +10,7 @@ abstract class baseWedding extends ApplicationModel {
 
 	const ID = 'wedding.id';
 	const NAME = 'wedding.name';
+	const SHUTTLE_ENABLED = 'wedding.shuttle_enabled';
 	const CREATED = 'wedding.created';
 	const UPDATED = 'wedding.updated';
 
@@ -66,6 +67,7 @@ abstract class baseWedding extends ApplicationModel {
 	protected static $_columns = array(
 		Wedding::ID,
 		Wedding::NAME,
+		Wedding::SHUTTLE_ENABLED,
 		Wedding::CREATED,
 		Wedding::UPDATED,
 	);
@@ -77,6 +79,7 @@ abstract class baseWedding extends ApplicationModel {
 	protected static $_columnNames = array(
 		'id',
 		'name',
+		'shuttle_enabled',
 		'created',
 		'updated',
 	);
@@ -88,6 +91,7 @@ abstract class baseWedding extends ApplicationModel {
 	protected static $_columnTypes = array(
 		'id' => Model::COLUMN_TYPE_INTEGER,
 		'name' => Model::COLUMN_TYPE_VARCHAR,
+		'shuttle_enabled' => Model::COLUMN_TYPE_TINYINT,
 		'created' => Model::COLUMN_TYPE_INTEGER_TIMESTAMP,
 		'updated' => Model::COLUMN_TYPE_INTEGER_TIMESTAMP,
 	);
@@ -103,6 +107,12 @@ abstract class baseWedding extends ApplicationModel {
 	 * @var string
 	 */
 	protected $name;
+
+	/**
+	 * `shuttle_enabled` TINYINT DEFAULT 0
+	 * @var int
+	 */
+	protected $shuttle_enabled = 0;
 
 	/**
 	 * `created` INTEGER_TIMESTAMP DEFAULT ''
@@ -144,6 +154,42 @@ abstract class baseWedding extends ApplicationModel {
 	 */
 	function setName($value) {
 		return $this->setColumnValue('name', $value, Model::COLUMN_TYPE_VARCHAR);
+	}
+
+	/**
+	 * Gets the value of the shuttle_enabled field
+	 */
+	function getShuttleEnabled() {
+		return $this->shuttle_enabled;
+	}
+
+	/**
+	 * Sets the value of the shuttle_enabled field
+	 * @return Wedding
+	 */
+	function setShuttleEnabled($value) {
+		return $this->setColumnValue('shuttle_enabled', $value, Model::COLUMN_TYPE_TINYINT);
+	}
+
+	/**
+	 * Convenience function for Wedding::getShuttleEnabled
+	 * final because getShuttleEnabled should be extended instead
+	 * to ensure consistent behavior
+	 * @see Wedding::getShuttleEnabled
+	 */
+	final function getShuttle_enabled() {
+		return $this->getShuttleEnabled();
+	}
+
+	/**
+	 * Convenience function for Wedding::setShuttleEnabled
+	 * final because setShuttleEnabled should be extended instead
+	 * to ensure consistent behavior
+	 * @see Wedding::setShuttleEnabled
+	 * @return Wedding
+	 */
+	final function setShuttle_enabled($value) {
+		return $this->setShuttleEnabled($value);
 	}
 
 	/**
@@ -350,6 +396,15 @@ abstract class baseWedding extends ApplicationModel {
 	}
 
 	/**
+	 * Searches the database for a row with a shuttle_enabled
+	 * value that matches the one provided
+	 * @return Wedding
+	 */
+	static function retrieveByShuttleEnabled($value) {
+		return Wedding::retrieveByColumn('shuttle_enabled', $value);
+	}
+
+	/**
 	 * Searches the database for a row with a created
 	 * value that matches the one provided
 	 * @return Wedding
@@ -414,6 +469,7 @@ abstract class baseWedding extends ApplicationModel {
 	 */
 	function castInts() {
 		$this->id = (null === $this->id) ? null : (int) $this->id;
+		$this->shuttle_enabled = (null === $this->shuttle_enabled) ? null : (int) $this->shuttle_enabled;
 		$this->created = (null === $this->created) ? null : (int) $this->created;
 		$this->updated = (null === $this->updated) ? null : (int) $this->updated;
 		return $this;

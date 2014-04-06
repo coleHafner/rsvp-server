@@ -112,22 +112,18 @@ class Guest extends baseGuest {
 		$qNew->add('is_new', 1);
 
 		$qTotal = clone $q;
-		$qTotal->add('id', 0, Query::GREATER_THAN);
 		$qTotal->add('is_new', 0);
 
 		$qReplied = clone $q;
-		$qReplied->add('id', 0, Query::GREATER_THAN);
 		$qReplied->add('is_attending', null, Query::IS_NOT_NULL);
 		$qReplied->add('is_new', 0);
 
 		$qAttending = clone $q;
-		$qAttending->add('id', 0, Query::GREATER_THAN);
 		$qAttending->add('updated', null, Query::IS_NOT_NULL);
 		$qAttending->add('is_attending', 1);
 
 		$qNotAttending = clone $q;
 		$qNotAttending->add('is_attending', 0);
-		$qNotAttending->add('id', 0, Query::GREATER_THAN);
 		$qNotAttending->add('updated', null, Query::IS_NOT_NULL);
 
 		$qRecent = clone $q;
@@ -136,11 +132,16 @@ class Guest extends baseGuest {
 		$qRecent->orderBy('updated', Query::DESC);
 		$qRecent->setLimit(10);
 
+		$qShuttle = clone $qAttending;
+		$qShuttle = $qShuttle->addColumn('SUM(shuttle_count) AS shuttle_count');
+		$qShuttle->setTable('guest');
+
 		return array(
 			'new' => $qNew,
 			'total' => $qTotal,
 			'recent' => $qRecent,
 			'replied' => $qReplied,
+			'shuttle' => $qShuttle,
 			'attending' => $qAttending,
 			'not_attending' => $qNotAttending,
 		);
@@ -161,15 +162,27 @@ class Guest extends baseGuest {
 	}
 
 	public static function getStats(User $user) {
+
 		$qs = self::getGuestQueries($user);
 
-		return array(
+		$stats = array(
 			'new' => self::doCount($qs['new']),
 			'total' => self::doCount($qs['total']),
 			'replied' => self::doCount($qs['replied']),
 			'attending' => self::doCount($qs['attending']),
 			'not_attending' => self::doCount($qs['not_attending']),
 		);
+
+		$wedding = $user->getWedding();
+
+		if ($user->isAdmin()
+			|| ($wedding instanceof Wedding
+			&& $wedding->getShuttleEnabled())) {
+			$count = $qs['shuttle']->doSelect()->fetch(PDO::FETCH_ASSOC);
+			$stats['shuttle'] = $count['shuttle_count'];
+		}
+
+		return $stats;
 	}
 
 	public static function getGuestLists(User $user) {
@@ -199,7 +212,7 @@ class Guest extends baseGuest {
 		}
 
 		//is_attending
-		switch($filters['is_attending']) {
+		switch(@$filters['is_attending']) {
 			case '0':
 				$q->add('is_attending', 0);
 				break;

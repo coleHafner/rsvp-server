@@ -3,9 +3,7 @@
 class GuestGroupsController extends ApplicationController {
 
 	public function index() {
-//		echo 'index';
-//		$gg = $this->getGuestGroup();
-//		return $gg->toArray();
+		//nothing
 	}
 
 	public function show($activation_code = null) {
@@ -14,7 +12,6 @@ class GuestGroupsController extends ApplicationController {
 	}
 
 	public function edit($activation_code = null) {
-		echo 'edit';
 		$gg = $this->getGuestGroup($activation_code);
 	}
 

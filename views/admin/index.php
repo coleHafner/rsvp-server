@@ -1,53 +1,68 @@
 <table class="rsvp_stats">
     <tr>
-	<td>
-	    <div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
-		<div class="padder">
-		    <div class="bg_color_white center header padder rounded_corners color_orange">
-			Attending
-		    </div>
-		    <div class="rsvp_num color_accent font_big">
-			<?php echo $stats['attending']; ?>
-		    </div>
-		</div>
-	    </div>
-	</td>
-	<td>
-	    <div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
-		<div class="padder">
-		    <div class="bg_color_white center header padder rounded_corners color_orange">
-			Not Attending
-		    </div>
-		    <div class="rsvp_num color_accent font_big">
-			<?php echo $stats['not_attending']; ?>
-		    </div>
-		</div>
-	    </div>
-	</td>
-	<td>
-	    <div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
-		<div class="padder">
-		    <div class="bg_color_white center header padder rounded_corners color_orange">
-			New Guests
-		    </div>
-		    <div class="rsvp_num color_accent font_big">
-			<?php echo $stats['new']; ?>
-		    </div>
-		</div>
-	    </div>
-	</td>
-	<td>
-	    <div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
-		<div class="padder">
-		    <div class="bg_color_white center header padder rounded_corners color_orange">
-			% Replied
-		    </div>
-		    <div class="rsvp_num color_accent font_big">
-			<?php echo $stats['total'] == 0 ? '0' : substr($stats['replied'] / $stats['total'], 0, 4) * 100; ?>
-		    </div>
-		</div>
-	    </div>
-	</td>
+		<td>
+			<div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
+			<div class="padder">
+				<div class="bg_color_white center header padder rounded_corners color_orange">
+				Attending
+				</div>
+				<div class="rsvp_num color_accent font_big">
+				<?php echo $stats['attending']; ?>
+				</div>
+			</div>
+			</div>
+		</td>
+		<td>
+			<div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
+			<div class="padder">
+				<div class="bg_color_white center header padder rounded_corners color_orange">
+				Not Attending
+				</div>
+				<div class="rsvp_num color_accent font_big">
+				<?php echo $stats['not_attending']; ?>
+				</div>
+			</div>
+			</div>
+		</td>
+		<td>
+			<div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
+			<div class="padder">
+				<div class="bg_color_white center header padder rounded_corners color_orange">
+				New Guests
+				</div>
+				<div class="rsvp_num color_accent font_big">
+				<?php echo $stats['new']; ?>
+				</div>
+			</div>
+			</div>
+		</td>
+		<td>
+			<div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
+			<div class="padder">
+				<div class="bg_color_white center header padder rounded_corners color_orange">
+				% Replied
+				</div>
+				<div class="rsvp_num color_accent font_big">
+				<?php echo $stats['total'] == 0 ? '0' : substr($stats['replied'] / $stats['total'], 0, 4) * 100; ?>
+				</div>
+			</div>
+			</div>
+		</td>
+
+		<?php if (!empty($stats['shuttle'])) : ?>
+			<td>
+				<div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
+				<div class="padder">
+					<div class="bg_color_white center header padder rounded_corners color_orange">
+					Shuttle
+					</div>
+					<div class="rsvp_num color_accent font_big">
+					<?php echo $stats['shuttle']; ?>
+					</div>
+				</div>
+				</div>
+			</td>
+		<?php endif; ?>
     </tr>
 </table>
 

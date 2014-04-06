@@ -51,6 +51,10 @@ class GuestGroup {
 			throw new RuntimeException('Error: Activation code "' . $source['activation_code'] . '" is not valid.');
 		}
 
+		$shuttle_count = !empty($source['shuttle_count']) ?
+			$source['shuttle_count'] : 0;
+
+		$g->setShuttleCount($shuttle_count);
 		$this->activation_code = $source['activation_code'];
 		$this->parent = $g;
 		$this->valid = true;
@@ -64,7 +68,15 @@ class GuestGroup {
 	}
 
 	public function save() {
+
+		$this->parent->save();
+
 		foreach($this->guests as $guest) {
+
+			if ($guest->getId() == $this->parent->getId()) {
+				continue;
+			}
+
 			$guest->setRsvpThroughSite(true);
 			$guest->save();
 		}
