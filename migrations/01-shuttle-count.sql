@@ -1,1 +1,0 @@
-ALTER TABLE `rsvp`.`guest` ADD COLUMN `shuttle_count` int(10) AFTER `activation_code`;
