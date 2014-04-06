@@ -19,6 +19,7 @@
     <column name="first_name" phpName="FirstName" type="VARCHAR" size="255" required="false"/>
     <column name="last_name" phpName="LastName" type="VARCHAR" size="255" required="false"/>
     <column name="activation_code" phpName="ActivationCode" type="VARCHAR" size="255" required="false"/>
+    <column name="shuttle_count" phpName="ShuttleCount" type="INTEGER" size="10" required="false"/>
     <column name="expected_count" phpName="ExpectedCount" type="INTEGER" size="10" required="false"/>
     <column name="actual_count" phpName="ActualCount" type="INTEGER" size="10" required="false"/>
     <column name="rsvp_through_site" phpName="RsvpThroughSite" type="TINYINT" size="1" required="false"/>

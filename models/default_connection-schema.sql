@@ -38,6 +38,7 @@ CREATE TABLE `guest`
 	`first_name` VARCHAR(255),
 	`last_name` VARCHAR(255),
 	`activation_code` VARCHAR(255),
+	`shuttle_count` INTEGER(10),
 	`expected_count` INTEGER(10),
 	`actual_count` INTEGER(10),
 	`rsvp_through_site` TINYINT(1),

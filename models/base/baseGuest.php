@@ -15,6 +15,7 @@ abstract class baseGuest extends ApplicationModel {
 	const FIRST_NAME = 'guest.first_name';
 	const LAST_NAME = 'guest.last_name';
 	const ACTIVATION_CODE = 'guest.activation_code';
+	const SHUTTLE_COUNT = 'guest.shuttle_count';
 	const EXPECTED_COUNT = 'guest.expected_count';
 	const ACTUAL_COUNT = 'guest.actual_count';
 	const RSVP_THROUGH_SITE = 'guest.rsvp_through_site';
@@ -82,6 +83,7 @@ abstract class baseGuest extends ApplicationModel {
 		Guest::FIRST_NAME,
 		Guest::LAST_NAME,
 		Guest::ACTIVATION_CODE,
+		Guest::SHUTTLE_COUNT,
 		Guest::EXPECTED_COUNT,
 		Guest::ACTUAL_COUNT,
 		Guest::RSVP_THROUGH_SITE,
@@ -104,6 +106,7 @@ abstract class baseGuest extends ApplicationModel {
 		'first_name',
 		'last_name',
 		'activation_code',
+		'shuttle_count',
 		'expected_count',
 		'actual_count',
 		'rsvp_through_site',
@@ -126,6 +129,7 @@ abstract class baseGuest extends ApplicationModel {
 		'first_name' => Model::COLUMN_TYPE_VARCHAR,
 		'last_name' => Model::COLUMN_TYPE_VARCHAR,
 		'activation_code' => Model::COLUMN_TYPE_VARCHAR,
+		'shuttle_count' => Model::COLUMN_TYPE_INTEGER,
 		'expected_count' => Model::COLUMN_TYPE_INTEGER,
 		'actual_count' => Model::COLUMN_TYPE_INTEGER,
 		'rsvp_through_site' => Model::COLUMN_TYPE_TINYINT,
@@ -177,6 +181,12 @@ abstract class baseGuest extends ApplicationModel {
 	 * @var string
 	 */
 	protected $activation_code;
+
+	/**
+	 * `shuttle_count` INTEGER DEFAULT ''
+	 * @var int
+	 */
+	protected $shuttle_count;
 
 	/**
 	 * `expected_count` INTEGER DEFAULT ''
@@ -455,6 +465,42 @@ abstract class baseGuest extends ApplicationModel {
 	 */
 	final function setActivation_code($value) {
 		return $this->setActivationCode($value);
+	}
+
+	/**
+	 * Gets the value of the shuttle_count field
+	 */
+	function getShuttleCount() {
+		return $this->shuttle_count;
+	}
+
+	/**
+	 * Sets the value of the shuttle_count field
+	 * @return Guest
+	 */
+	function setShuttleCount($value) {
+		return $this->setColumnValue('shuttle_count', $value, Model::COLUMN_TYPE_INTEGER);
+	}
+
+	/**
+	 * Convenience function for Guest::getShuttleCount
+	 * final because getShuttleCount should be extended instead
+	 * to ensure consistent behavior
+	 * @see Guest::getShuttleCount
+	 */
+	final function getShuttle_count() {
+		return $this->getShuttleCount();
+	}
+
+	/**
+	 * Convenience function for Guest::setShuttleCount
+	 * final because setShuttleCount should be extended instead
+	 * to ensure consistent behavior
+	 * @see Guest::setShuttleCount
+	 * @return Guest
+	 */
+	final function setShuttle_count($value) {
+		return $this->setShuttleCount($value);
 	}
 
 	/**
@@ -901,6 +947,15 @@ abstract class baseGuest extends ApplicationModel {
 	}
 
 	/**
+	 * Searches the database for a row with a shuttle_count
+	 * value that matches the one provided
+	 * @return Guest
+	 */
+	static function retrieveByShuttleCount($value) {
+		return Guest::retrieveByColumn('shuttle_count', $value);
+	}
+
+	/**
 	 * Searches the database for a row with a expected_count
 	 * value that matches the one provided
 	 * @return Guest
@@ -1022,6 +1077,7 @@ abstract class baseGuest extends ApplicationModel {
 		$this->parent_id = (null === $this->parent_id) ? null : (int) $this->parent_id;
 		$this->address_id = (null === $this->address_id) ? null : (int) $this->address_id;
 		$this->wedding_id = (null === $this->wedding_id) ? null : (int) $this->wedding_id;
+		$this->shuttle_count = (null === $this->shuttle_count) ? null : (int) $this->shuttle_count;
 		$this->expected_count = (null === $this->expected_count) ? null : (int) $this->expected_count;
 		$this->actual_count = (null === $this->actual_count) ? null : (int) $this->actual_count;
 		$this->rsvp_through_site = (null === $this->rsvp_through_site) ? null : (int) $this->rsvp_through_site;
