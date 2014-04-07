@@ -49,7 +49,15 @@
 			</div>
 		</td>
 
-		<?php if (!empty($stats['shuttle'])) : ?>
+		<?php 
+
+		$user = Application::getUser();
+		$wedding = $user->getWedding();
+
+		if ($user->isAdmin()
+			|| ($wedding instanceof Wedding
+			&& $wedding->getShuttleEnabled())) :
+		?>
 			<td>
 				<div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
 				<div class="padder">

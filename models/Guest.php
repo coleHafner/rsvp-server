@@ -179,7 +179,7 @@ class Guest extends baseGuest {
 			|| ($wedding instanceof Wedding
 			&& $wedding->getShuttleEnabled())) {
 			$count = $qs['shuttle']->doSelect()->fetch(PDO::FETCH_ASSOC);
-			$stats['shuttle'] = $count['shuttle_count'];
+			$stats['shuttle'] = !empty($count['shuttle_count']) ? $count['shuttle_count'] : 0;
 		}
 
 		return $stats;
