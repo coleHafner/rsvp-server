@@ -9,13 +9,13 @@ $container_id = ( array_key_exists("container_id", $params) ) ? 'id="' . $params
 	    <?php View::load('widgets/button', $params['left']); ?>
 	</td>
 
-        <?if(isset($params['right'])) { ?>
+        <?php if(isset($params['right'])) : ?>
             <td>
                 &nbsp;
             </td>
             <td class="center">
                 <?php View::load('widgets/button', $params['right']); ?>
             </td>
-        <? }?>
+        <?php endif; ?>
     </tr>
 </table>

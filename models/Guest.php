@@ -235,10 +235,16 @@ class Guest extends baseGuest {
 		return self::doSelect($q);
 	}
 
-	public static function getAllParents() {
+	public static function getAllParents(User $user) {
+
 		$q = new Query;
-		$q->add('parent_id', null, Query::IS_NOT_NULL);
+		$q->add('parent_id', null, Query::IS_NULL);
 		$q->orderBy('last_name', Query::ASC);
+
+		if (!$user->isAdmin()) {
+			$q->add('wedding_id', $user->getWeddingId());
+		}
+
 		return self::doSelect($q);
 	}
 
@@ -287,23 +293,13 @@ class Guest extends baseGuest {
 
 	public function doEdit($form_vals) {
 
-		if ($this->isNew()) {
+		//print_r($form_vals);die;
+		$this->setFirstName($form_vals['first_name']);
+		$this->setLastName($form_vals['last_name']);
+		$this->setWeddingId($form_vals['wedding_id']);
 
-			if (empty($form_vals['parent_id'])) {
-				$this->setActivationCode(Guest::getUniqueActivationCode($form_vals['first_name']));
-			}else {
-				$this->setParentId($form_vals['parent_id']);
-			}
-
-			$this->setFirstName($form_vals['first_name']);
-			$this->setLastName($form_vals['last_name']);
-			$this->setWeddingId($form_vals['wedding_id']);
-			$this->setRsvpThroughSite(0);
-			$this->save();
-
-			foreach ($form_vals['guest_type_id'] as $gtId) {
-				$this->addGuestTypeId($gtId);
-			}
+		if (!empty($form_vals['parent_id'])) {
+			$this->setParentId($form_vals['parent_id']);
 		}
 
 		if (array_key_exists('is_attending', $form_vals)) {
@@ -311,8 +307,18 @@ class Guest extends baseGuest {
 			$this->setIsAttending($isAttending);
 		}
 
-		$this->setFirstName($form_vals['first_name']);
-		$this->setLastName($form_vals['last_name']);
+		if ($this->isNew()) {
+			$this->setRsvpThroughSite(0);
+			$this->save();
+
+			foreach ($form_vals['guest_type_id'] as $gtId) {
+				$this->addGuestTypeId($gtId);
+			}
+
+			if (empty($form_vals['parent_id'])) {
+				$this->setActivationCode(Guest::getUniqueActivationCode($form_vals['first_name']));
+			}
+		}
 
 		return $this->save();
 	}
