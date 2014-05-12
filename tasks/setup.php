@@ -1,6 +1,7 @@
 <?php
 
 require_once('../config.php');
+ini_set('auto_detect_line_endings', true);
 
 function getInput($msg) {
 	fwrite(STDOUT, "$msg: ");

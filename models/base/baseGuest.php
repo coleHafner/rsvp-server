@@ -18,6 +18,8 @@ abstract class baseGuest extends ApplicationModel {
 	const SHUTTLE_COUNT = 'guest.shuttle_count';
 	const EXPECTED_COUNT = 'guest.expected_count';
 	const ACTUAL_COUNT = 'guest.actual_count';
+	const DINNER_COUNT = 'guest.dinner_count';
+	const RSVP_DINNER_ENABLED = 'guest.rsvp_dinner_enabled';
 	const RSVP_THROUGH_SITE = 'guest.rsvp_through_site';
 	const IS_ATTENDING = 'guest.is_attending';
 	const IS_NEW = 'guest.is_new';
@@ -86,6 +88,8 @@ abstract class baseGuest extends ApplicationModel {
 		Guest::SHUTTLE_COUNT,
 		Guest::EXPECTED_COUNT,
 		Guest::ACTUAL_COUNT,
+		Guest::DINNER_COUNT,
+		Guest::RSVP_DINNER_ENABLED,
 		Guest::RSVP_THROUGH_SITE,
 		Guest::IS_ATTENDING,
 		Guest::IS_NEW,
@@ -109,6 +113,8 @@ abstract class baseGuest extends ApplicationModel {
 		'shuttle_count',
 		'expected_count',
 		'actual_count',
+		'dinner_count',
+		'rsvp_dinner_enabled',
 		'rsvp_through_site',
 		'is_attending',
 		'is_new',
@@ -132,6 +138,8 @@ abstract class baseGuest extends ApplicationModel {
 		'shuttle_count' => Model::COLUMN_TYPE_INTEGER,
 		'expected_count' => Model::COLUMN_TYPE_INTEGER,
 		'actual_count' => Model::COLUMN_TYPE_INTEGER,
+		'dinner_count' => Model::COLUMN_TYPE_INTEGER,
+		'rsvp_dinner_enabled' => Model::COLUMN_TYPE_TINYINT,
 		'rsvp_through_site' => Model::COLUMN_TYPE_TINYINT,
 		'is_attending' => Model::COLUMN_TYPE_TINYINT,
 		'is_new' => Model::COLUMN_TYPE_TINYINT,
@@ -199,6 +207,18 @@ abstract class baseGuest extends ApplicationModel {
 	 * @var int
 	 */
 	protected $actual_count;
+
+	/**
+	 * `dinner_count` INTEGER DEFAULT ''
+	 * @var int
+	 */
+	protected $dinner_count;
+
+	/**
+	 * `rsvp_dinner_enabled` TINYINT DEFAULT ''
+	 * @var int
+	 */
+	protected $rsvp_dinner_enabled;
 
 	/**
 	 * `rsvp_through_site` TINYINT DEFAULT ''
@@ -573,6 +593,78 @@ abstract class baseGuest extends ApplicationModel {
 	 */
 	final function setActual_count($value) {
 		return $this->setActualCount($value);
+	}
+
+	/**
+	 * Gets the value of the dinner_count field
+	 */
+	function getDinnerCount() {
+		return $this->dinner_count;
+	}
+
+	/**
+	 * Sets the value of the dinner_count field
+	 * @return Guest
+	 */
+	function setDinnerCount($value) {
+		return $this->setColumnValue('dinner_count', $value, Model::COLUMN_TYPE_INTEGER);
+	}
+
+	/**
+	 * Convenience function for Guest::getDinnerCount
+	 * final because getDinnerCount should be extended instead
+	 * to ensure consistent behavior
+	 * @see Guest::getDinnerCount
+	 */
+	final function getDinner_count() {
+		return $this->getDinnerCount();
+	}
+
+	/**
+	 * Convenience function for Guest::setDinnerCount
+	 * final because setDinnerCount should be extended instead
+	 * to ensure consistent behavior
+	 * @see Guest::setDinnerCount
+	 * @return Guest
+	 */
+	final function setDinner_count($value) {
+		return $this->setDinnerCount($value);
+	}
+
+	/**
+	 * Gets the value of the rsvp_dinner_enabled field
+	 */
+	function getRsvpDinnerEnabled() {
+		return $this->rsvp_dinner_enabled;
+	}
+
+	/**
+	 * Sets the value of the rsvp_dinner_enabled field
+	 * @return Guest
+	 */
+	function setRsvpDinnerEnabled($value) {
+		return $this->setColumnValue('rsvp_dinner_enabled', $value, Model::COLUMN_TYPE_TINYINT);
+	}
+
+	/**
+	 * Convenience function for Guest::getRsvpDinnerEnabled
+	 * final because getRsvpDinnerEnabled should be extended instead
+	 * to ensure consistent behavior
+	 * @see Guest::getRsvpDinnerEnabled
+	 */
+	final function getRsvp_dinner_enabled() {
+		return $this->getRsvpDinnerEnabled();
+	}
+
+	/**
+	 * Convenience function for Guest::setRsvpDinnerEnabled
+	 * final because setRsvpDinnerEnabled should be extended instead
+	 * to ensure consistent behavior
+	 * @see Guest::setRsvpDinnerEnabled
+	 * @return Guest
+	 */
+	final function setRsvp_dinner_enabled($value) {
+		return $this->setRsvpDinnerEnabled($value);
 	}
 
 	/**
@@ -974,6 +1066,24 @@ abstract class baseGuest extends ApplicationModel {
 	}
 
 	/**
+	 * Searches the database for a row with a dinner_count
+	 * value that matches the one provided
+	 * @return Guest
+	 */
+	static function retrieveByDinnerCount($value) {
+		return Guest::retrieveByColumn('dinner_count', $value);
+	}
+
+	/**
+	 * Searches the database for a row with a rsvp_dinner_enabled
+	 * value that matches the one provided
+	 * @return Guest
+	 */
+	static function retrieveByRsvpDinnerEnabled($value) {
+		return Guest::retrieveByColumn('rsvp_dinner_enabled', $value);
+	}
+
+	/**
 	 * Searches the database for a row with a rsvp_through_site
 	 * value that matches the one provided
 	 * @return Guest
@@ -1080,6 +1190,8 @@ abstract class baseGuest extends ApplicationModel {
 		$this->shuttle_count = (null === $this->shuttle_count) ? null : (int) $this->shuttle_count;
 		$this->expected_count = (null === $this->expected_count) ? null : (int) $this->expected_count;
 		$this->actual_count = (null === $this->actual_count) ? null : (int) $this->actual_count;
+		$this->dinner_count = (null === $this->dinner_count) ? null : (int) $this->dinner_count;
+		$this->rsvp_dinner_enabled = (null === $this->rsvp_dinner_enabled) ? null : (int) $this->rsvp_dinner_enabled;
 		$this->rsvp_through_site = (null === $this->rsvp_through_site) ? null : (int) $this->rsvp_through_site;
 		$this->is_attending = (null === $this->is_attending) ? null : (int) $this->is_attending;
 		$this->is_new = (null === $this->is_new) ? null : (int) $this->is_new;

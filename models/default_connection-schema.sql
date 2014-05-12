@@ -41,6 +41,8 @@ CREATE TABLE `guest`
 	`shuttle_count` INTEGER(10),
 	`expected_count` INTEGER(10),
 	`actual_count` INTEGER(10),
+	`dinner_count` INTEGER(10),
+	`rsvp_dinner_enabled` TINYINT(1),
 	`rsvp_through_site` TINYINT(1),
 	`is_attending` TINYINT(1),
 	`is_new` TINYINT(1) DEFAULT 0,

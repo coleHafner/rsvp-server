@@ -89,4 +89,14 @@ abstract class BaseImport {
 	public function setLogging($logging) {
 		$this->logging = $logging;
 	}
+
+	/**
+	 * @param	string	$answer
+	 * @return	boolean
+	 */
+	public static function answerToBoolean($answer) {
+		$answer = strtolower(trim($answer));
+		$truthy = array('y', 'yes', '1');
+		return in_array($answer, $truthy);
+	}
 }

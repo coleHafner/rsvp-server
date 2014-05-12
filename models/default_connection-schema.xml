@@ -22,6 +22,8 @@
     <column name="shuttle_count" phpName="ShuttleCount" type="INTEGER" size="10" required="false"/>
     <column name="expected_count" phpName="ExpectedCount" type="INTEGER" size="10" required="false"/>
     <column name="actual_count" phpName="ActualCount" type="INTEGER" size="10" required="false"/>
+    <column name="dinner_count" phpName="DinnerCount" type="INTEGER" size="10" required="false"/>
+    <column name="rsvp_dinner_enabled" phpName="RsvpDinnerEnabled" type="TINYINT" size="1" required="false"/>
     <column name="rsvp_through_site" phpName="RsvpThroughSite" type="TINYINT" size="1" required="false"/>
     <column name="is_attending" phpName="IsAttending" type="TINYINT" size="1" required="false"/>
     <column name="is_new" phpName="IsNew" type="TINYINT" size="1" required="false" defaultValue="0"/>
