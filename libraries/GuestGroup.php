@@ -54,7 +54,12 @@ class GuestGroup {
 		$shuttle_count = !empty($source['shuttle_count']) ?
 			$source['shuttle_count'] : 0;
 
+		$dinner_count = !empty($source['dinner_count']) ?
+			$source['dinner_count'] : 0;
+
 		$g->setShuttleCount($shuttle_count);
+		$g->setDinnerCount($dinner_count);
+		
 		$this->activation_code = $source['activation_code'];
 		$this->parent = $g;
 		$this->valid = true;
