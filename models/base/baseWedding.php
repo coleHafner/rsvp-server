@@ -11,6 +11,7 @@ abstract class baseWedding extends ApplicationModel {
 	const ID = 'wedding.id';
 	const NAME = 'wedding.name';
 	const SHUTTLE_ENABLED = 'wedding.shuttle_enabled';
+	const RSVP_DINNER_ENABLED = 'wedding.rsvp_dinner_enabled';
 	const CREATED = 'wedding.created';
 	const UPDATED = 'wedding.updated';
 
@@ -68,6 +69,7 @@ abstract class baseWedding extends ApplicationModel {
 		Wedding::ID,
 		Wedding::NAME,
 		Wedding::SHUTTLE_ENABLED,
+		Wedding::RSVP_DINNER_ENABLED,
 		Wedding::CREATED,
 		Wedding::UPDATED,
 	);
@@ -80,6 +82,7 @@ abstract class baseWedding extends ApplicationModel {
 		'id',
 		'name',
 		'shuttle_enabled',
+		'rsvp_dinner_enabled',
 		'created',
 		'updated',
 	);
@@ -92,6 +95,7 @@ abstract class baseWedding extends ApplicationModel {
 		'id' => Model::COLUMN_TYPE_INTEGER,
 		'name' => Model::COLUMN_TYPE_VARCHAR,
 		'shuttle_enabled' => Model::COLUMN_TYPE_TINYINT,
+		'rsvp_dinner_enabled' => Model::COLUMN_TYPE_TINYINT,
 		'created' => Model::COLUMN_TYPE_INTEGER_TIMESTAMP,
 		'updated' => Model::COLUMN_TYPE_INTEGER_TIMESTAMP,
 	);
@@ -113,6 +117,12 @@ abstract class baseWedding extends ApplicationModel {
 	 * @var int
 	 */
 	protected $shuttle_enabled = 0;
+
+	/**
+	 * `rsvp_dinner_enabled` TINYINT DEFAULT 0
+	 * @var int
+	 */
+	protected $rsvp_dinner_enabled = 0;
 
 	/**
 	 * `created` INTEGER_TIMESTAMP DEFAULT ''
@@ -190,6 +200,42 @@ abstract class baseWedding extends ApplicationModel {
 	 */
 	final function setShuttle_enabled($value) {
 		return $this->setShuttleEnabled($value);
+	}
+
+	/**
+	 * Gets the value of the rsvp_dinner_enabled field
+	 */
+	function getRsvpDinnerEnabled() {
+		return $this->rsvp_dinner_enabled;
+	}
+
+	/**
+	 * Sets the value of the rsvp_dinner_enabled field
+	 * @return Wedding
+	 */
+	function setRsvpDinnerEnabled($value) {
+		return $this->setColumnValue('rsvp_dinner_enabled', $value, Model::COLUMN_TYPE_TINYINT);
+	}
+
+	/**
+	 * Convenience function for Wedding::getRsvpDinnerEnabled
+	 * final because getRsvpDinnerEnabled should be extended instead
+	 * to ensure consistent behavior
+	 * @see Wedding::getRsvpDinnerEnabled
+	 */
+	final function getRsvp_dinner_enabled() {
+		return $this->getRsvpDinnerEnabled();
+	}
+
+	/**
+	 * Convenience function for Wedding::setRsvpDinnerEnabled
+	 * final because setRsvpDinnerEnabled should be extended instead
+	 * to ensure consistent behavior
+	 * @see Wedding::setRsvpDinnerEnabled
+	 * @return Wedding
+	 */
+	final function setRsvp_dinner_enabled($value) {
+		return $this->setRsvpDinnerEnabled($value);
 	}
 
 	/**
@@ -405,6 +451,15 @@ abstract class baseWedding extends ApplicationModel {
 	}
 
 	/**
+	 * Searches the database for a row with a rsvp_dinner_enabled
+	 * value that matches the one provided
+	 * @return Wedding
+	 */
+	static function retrieveByRsvpDinnerEnabled($value) {
+		return Wedding::retrieveByColumn('rsvp_dinner_enabled', $value);
+	}
+
+	/**
 	 * Searches the database for a row with a created
 	 * value that matches the one provided
 	 * @return Wedding
@@ -470,6 +525,7 @@ abstract class baseWedding extends ApplicationModel {
 	function castInts() {
 		$this->id = (null === $this->id) ? null : (int) $this->id;
 		$this->shuttle_enabled = (null === $this->shuttle_enabled) ? null : (int) $this->shuttle_enabled;
+		$this->rsvp_dinner_enabled = (null === $this->rsvp_dinner_enabled) ? null : (int) $this->rsvp_dinner_enabled;
 		$this->created = (null === $this->created) ? null : (int) $this->created;
 		$this->updated = (null === $this->updated) ? null : (int) $this->updated;
 		return $this;
