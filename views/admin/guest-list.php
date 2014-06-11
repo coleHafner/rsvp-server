@@ -9,23 +9,23 @@
     </span>
     <div class="padder_10_top">
 		<form id="guest_list_form">
-			<div style="position:relative;width:24%;float:left;">
+			<div style="position:relative;width:20%;float:left;">
 				<span class="title_span">
 					First Name:
 				</span>
 
 				<div class="padder" style="padding-left:0px;">
-					<input name="first_name" value="" />
+					<input name="first_name" type="text" value="" />
 				</div>
 			</div>
 
-			<div style="position:relative;width:24%;float:left;">
+			<div style="position:relative;width:20%;float:left;">
 				<span class="title_span">
 					Last Name:
 				</span>
 
 				<div class="padder" style="padding-left:0px;">
-					<input name="last_name" value="" />
+					<input name="last_name" type="text" value="" />
 				</div>
 			</div>
 
@@ -65,7 +65,7 @@
 				</div>
 			<?php endif; ?>
 
-			<div style="position:relative;width:12%;float:left;">
+			<div style="position:relative;width:20%;float:left;">
 				<?php View::load('widgets/button-form', $params['form-buttons']); ?>
 			</div>
 

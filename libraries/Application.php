@@ -68,5 +68,13 @@ class Application {
         return (!empty($_SESSION[$key])) ? $_SESSION['key'] : null;
 
     }//getSessionVar()
+	
+	/**
+	 * @return	Wedding
+	 */
+	static function getWedding() {
+		$u = self::getUser();
+		return $u instanceof User ? $u->getWedding() : null;
+	}
 
 }//class Application

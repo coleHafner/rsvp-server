@@ -66,6 +66,10 @@ select {
 	padding: 1px;
 }
 
+input[type=text], select {
+	max-width: 125px;
+}
+
 textarea {
 	width: 400px;
 	height: 80px;
