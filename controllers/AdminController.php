@@ -53,7 +53,7 @@ class AdminController extends LoggedInApplicationController {
 				'pk_value' => 0,
 				'process' => "apply_filter",
 				'id' => "guest_list",
-				'button_value' => "Filter",
+				'button_value' => "Search",
 				'extra_style' => 'style="width:41px;"'),
 		);
 	}

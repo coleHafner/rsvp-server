@@ -8,7 +8,7 @@
 	<div id="result_login_attempt" class="result"></div>
 
 	<div class="center bottom_spacer">
-	    <input id="auth_auto_login" type="text" class="input text_input text_long font_normal input_clear" name="username" value="Username or Email" clear_if="Username or Email" />
+	    <input id="auth_auto_login" type="text" style="max-width:199px;" class="input text_input text_long font_normal input_clear" name="username" value="Username or Email" clear_if="Username or Email" />
 	</div>
 
 	<div class="center bottom_spacer">

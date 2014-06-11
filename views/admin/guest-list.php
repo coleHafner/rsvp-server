@@ -8,7 +8,7 @@
 		Filter Guest List
     </span>
     <div class="padder_10_top">
-		<form id="guest_list_form">
+		<form id="guest_list_form" style="position:relative;">
 			<div style="position:relative;width:20%;float:left;">
 				<span class="title_span">
 					First Name:
@@ -67,6 +67,12 @@
 
 			<div style="position:relative;width:20%;float:left;">
 				<?php View::load('widgets/button-form', $params['form-buttons']); ?>
+			</div>
+			
+			<div class="font_normal bg_color_white color_accent" style="position:absolute;right:10px;top:3px;">
+				<div class="padder">
+					<?php echo count($guests); ?> Total Guests
+				</div>
 			</div>
 
 			<div class="clear"></div>
