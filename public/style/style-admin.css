@@ -870,3 +870,7 @@ Admin
     position:relative;
     width:100%;
 }
+
+.guest-edit-form select, .guest-edit-form input[type=text] {
+	min-width: 130px;
+}

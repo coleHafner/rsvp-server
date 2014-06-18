@@ -9,8 +9,8 @@ $(function() {
 </script>
 
 <div class="padder_10_top">
-    <form id="guest-edit-form-<?php echo ($activeRecord->isNew()) ? 0 : $activeRecord->getId(); ?>" >
-		<table >
+    <form id="guest-edit-form-<?php echo ($activeRecord->isNew()) ? 0 : $activeRecord->getId(); ?>" class="guest-edit-form">
+		<table>
 			<tr>
 				<td style="text-align:right;">
 					First Name:
@@ -27,7 +27,7 @@ $(function() {
 					<input type="text" name="last_name" class="text_input" value="<?php echo $activeRecord->getLastName(); ?>"/>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td style="text-align:right;">
 					Activation Code:
@@ -36,7 +36,7 @@ $(function() {
 					<input type="text" name="activation_code" class="text_input" value="<?php echo $activeRecord->getActivationCode(); ?>"/>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td style="text-align:right;vertical-align:top;">
 					Parent Guest:
@@ -54,11 +54,11 @@ $(function() {
 					</select>
 				</td>
 			</tr>
-			
+
 			<?php if (Application::getWedding() && Application::getWedding()->getRsvpDinnerEnabled()) : ?>
 				<tr>
 					<td style="text-align:right;">
-						Attending Dinner:
+						Dinner RSVP Enabled:
 					</td>
 					<td>
 						<select name="rsvp_dinner_enabled" id="dinner-enabled">
@@ -67,15 +67,20 @@ $(function() {
 						</select>
 					</td>
 				</tr>
-				
+
 				<tr>
 					<td style="text-align:right;">
 						Dinner Count:
 					</td>
 					<td>
 						<select name="dinner_count" id="dinner-count" >
+
+							<option value="" <?php echo is_null($activeRecord->getDinnerCount()) ? 'selected' : ''; ?>>
+								-
+							</option>
+
 							<?php for($i = 0; $i <= 10; $i++) :?>
-								<option value="<?php echo $i; ?>" <?php echo $activeRecord->getDinnerCount() == $i ? 'selected' : ''; ?>>
+								<option value="<?php echo $i; ?>" <?php echo $activeRecord->getDinnerCount() === $i ? 'selected' : ''; ?>>
 									<?php echo $i; ?>
 								</option>
 							<?php endfor; ?>
@@ -83,7 +88,7 @@ $(function() {
 					</td>
 				</tr>
 			<?php endif; ?>
-				
+
 			<?php if (Application::getWedding() && Application::getWedding()->getShuttleEnabled()) : ?>
 				<tr>
 					<td style="text-align:right;">
@@ -91,15 +96,35 @@ $(function() {
 					</td>
 					<td>
 						<select name="shuttle_count">
+
+							<option value="" <?php echo is_null($activeRecord->getShuttleCount()) ? 'selected' : ''; ?>>
+								-
+							</option>
+
 							<?php for($i = 0; $i <= 10; $i++) :?>
-								<option value="<?php echo $i; ?>" <?php echo $activeRecord->getShuttleCount() == $i ? 'selected' : ''; ?>>
+								<option value="<?php echo $i; ?>" <?php echo $activeRecord->getShuttleCount() === $i ? 'selected' : ''; ?>>
 									<?php echo $i; ?>
 								</option>
 							<?php endfor; ?>
+
 						</select>
 					</td>
 				</tr>
 			<?php endif; ?>
+
+			<tr>
+				<td style="text-align:right;">Attending:</td>
+				<td>
+					<select name="is_attending">
+						<?php foreach(array('1' => 'Yes', '0' => 'No', '' => '-') as $key => $val) : ?>
+							<option value="<?php echo $key; ?>"
+								<?php echo (string)$activeRecord->getIsAttending() == (string)$key ? 'selected' : ''; ?> >
+								<?php echo $val; ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+			</tr>
 
 			<?php if (Application::getUser()->isAdmin()) : ?>
 				<tr>
@@ -119,24 +144,14 @@ $(function() {
 						</select>
 					</td>
 				</tr>
+		</table>
 			<?php else : ?>
+		</table>
 				<input
 					id="wedding_id"
 					type="hidden"
 					name="wedding_id"
 					value="<?php echo Application::getUser()->getWeddingId(); ?>" />
 			<?php endif; ?>
-
-			<tr><td>&nbsp;</td></tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>
-					<label>
-						<input type="checkbox" name="is_attending" <?php echo ($activeRecord->getIsAttending()) ? 'checked="checked"' : ''; ?> />
-						&nbsp;Attending Wedding
-					</label>
-				</td>
-			</tr>
-		</table>
     </form>
 </div>

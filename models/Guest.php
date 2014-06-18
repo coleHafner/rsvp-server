@@ -301,37 +301,31 @@ class Guest extends baseGuest {
 		if (!empty($form_vals['parent_id'])) {
 			$this->setParentId($form_vals['parent_id']);
 		}
-		
+
 		if (!empty($form_vals['activation_code'])) {
 			$this->setActivationCode($form_vals['activation_code']);
 		}
-		
+
 		if (array_key_exists('rsvp_dinner_enabled', $form_vals)) {
 			$this->setRsvpDinnerEnabled($form_vals['rsvp_dinner_enabled']);
 		}
-		
+
 		if (array_key_exists('dinner_count', $form_vals)) {
 			$this->setDinnerCount($form_vals['dinner_count']);
 		}
-		
+
 		if (array_key_exists('shuttle_count', $form_vals)) {
 			$this->setShuttleCount($form_vals['shuttle_count']);
 		}
 
-		$isAttending = 0;
-		
-		if (array_key_exists('is_attending', $form_vals)) {
-			$isAttending = (isset($form_vals['is_attending'])) ? 1 : 0;
-		}
-		
-		$this->setIsAttending($isAttending);
+		$this->setIsAttending($form_vals['is_attending']);
 
 		if ($this->isNew()) {
 			$this->setRsvpThroughSite(0);
 			$this->save();
 
 			$gt = GuestType::doSelectOne();
-			
+
 			if ($gt) {
 				$this->addGuestTypeId($gt->getId());
 			}
