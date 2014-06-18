@@ -132,9 +132,13 @@ class Guest extends baseGuest {
 		$qRecent->orderBy('updated', Query::DESC);
 		$qRecent->setLimit(10);
 
-		$qShuttle = clone $qAttending;
+		$qShuttle = clone $q;
 		$qShuttle = $qShuttle->addColumn('SUM(shuttle_count) AS shuttle_count');
 		$qShuttle->setTable('guest');
+
+		$qDinner = clone $q;
+		$qDinner->addColumn('SUM(dinner_count) AS dinner_count');
+		$qDinner->setTable('guest');
 
 		return array(
 			'new' => $qNew,
@@ -144,6 +148,7 @@ class Guest extends baseGuest {
 			'shuttle' => $qShuttle,
 			'attending' => $qAttending,
 			'not_attending' => $qNotAttending,
+			'dinner' => $qDinner
 		);
 	}
 
@@ -180,6 +185,13 @@ class Guest extends baseGuest {
 			&& $wedding->getShuttleEnabled())) {
 			$count = $qs['shuttle']->doSelect()->fetch(PDO::FETCH_ASSOC);
 			$stats['shuttle'] = !empty($count['shuttle_count']) ? $count['shuttle_count'] : 0;
+		}
+
+		if ($user->isAdmin()
+			|| ($wedding instanceof Wedding
+			&& $wedding->getRsvpDinnerEnabled())) {
+			$count = $qs['dinner']->doSelect()->fetch(PDO::FETCH_ASSOC);
+			$stats['dinner'] = !empty($count['dinner_count']) ? $count['dinner_count'] : 0;
 		}
 
 		return $stats;

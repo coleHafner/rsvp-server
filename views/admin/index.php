@@ -49,7 +49,7 @@
 			</div>
 		</td>
 
-		<?php 
+		<?php
 
 		$user = Application::getUser();
 		$wedding = $user->getWedding();
@@ -72,6 +72,27 @@
 			</td>
 		<?php endif; ?>
     </tr>
+
+	<?php
+	if ($user->isAdmin()
+			|| ($wedding instanceof Wedding
+			&& $wedding->getRsvpDinnerEnabled())) :
+		?>
+		<tr>
+			<td>
+				<div class="rsvp_stat rounded_corners border_tan center bg_color_light_tan">
+				<div class="padder">
+					<div class="bg_color_white center header padder rounded_corners color_orange">
+					Dinner
+					</div>
+					<div class="rsvp_num color_accent font_big">
+					<?php echo $stats['dinner']; ?>
+					</div>
+				</div>
+				</div>
+			</td>
+		</tr>
+		<?php endif; ?>
 </table>
 
 <div style="position:relative;margin:15px auto auto auto;width:650px;">
